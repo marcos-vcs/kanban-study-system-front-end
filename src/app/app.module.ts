@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Error404Component } from './components/error404/error404.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BoardsPageComponent,
     ContactPageComponent,
     AboutKanbanPageComponent,
-    FooterComponent
+    FooterComponent,
+    Error404Component
   ],
   imports: [
     [ RouterModule.forRoot(rootRouterConfig, {useHash: true})],
