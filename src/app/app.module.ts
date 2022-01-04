@@ -1,3 +1,4 @@
+import { rootRouterConfig } from './app.routes';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,6 +9,12 @@ import { BoardsPageComponent } from './components/boards-page/boards-page.compon
 import { ContactPageComponent } from './components/contact-page/contact-page.component';
 import { AboutKanbanPageComponent } from './components/about-kanban-page/about-kanban-page.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { APP_BASE_HREF } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -20,9 +27,15 @@ import { FooterComponent } from './components/footer/footer.component';
     FooterComponent
   ],
   imports: [
-    BrowserModule
+    [ RouterModule.forRoot(rootRouterConfig, {useHash: true})],
+    TooltipModule.forRoot(),
+    BrowserModule,
+    BrowserAnimationsModule,
+    NgxNavbarModule
   ],
-  providers: [],
+  providers: [
+    { provide: APP_BASE_HREF, useValue: '/' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
