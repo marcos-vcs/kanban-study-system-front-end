@@ -2,6 +2,15 @@
   border: 1px solid #ccc;
 }
 
+#title-board{
+  font-family:'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 1.5em;
+  text-align: center;
+  padding-top: 10px;
+  color: #000;
+}
+
 bs-sortable::ng-deep .sortable-item {
   padding: 6px 12px;
   margin: 4px;

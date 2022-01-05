@@ -28,10 +28,6 @@ export class BoardsPageComponent implements OnInit {
     { id: 6, name: 'Tomato' }
   ];
 
-
-
-
-
   openModal($event: any){
     let event : string = $event.target;
     console.log(event);
