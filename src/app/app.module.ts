@@ -15,7 +15,9 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxNavbarModule } from 'ngx-bootstrap-navbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Error404Component } from './components/error404/error404.component';
-
+import { SortableModule } from 'ngx-bootstrap/sortable';
+import { FormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,9 @@ import { Error404Component } from './components/error404/error404.component';
   imports: [
     [ RouterModule.forRoot(rootRouterConfig, {useHash: true})],
     TooltipModule.forRoot(),
+    SortableModule.forRoot(),
+    ModalModule.forRoot(),
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     NgxNavbarModule
