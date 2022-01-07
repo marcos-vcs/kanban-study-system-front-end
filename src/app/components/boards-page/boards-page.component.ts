@@ -1,20 +1,23 @@
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-interface IItemObject {
-  id: number;
-  name: string;
-  board: string;
-}
 interface KanbanDemand {
+  id: string;
   title : string;
   description : string;
+}
+
+interface KanbanColumn {
+  id: string;
+  title: string;
+  demands : KanbanDemand[];
 }
 
 interface KanbanBoard {
   id: string;
   title: string;
-  demands : KanbanDemand[];
+  columns: KanbanColumn[];
 }
 
 @Component({
@@ -26,90 +29,115 @@ export class BoardsPageComponent implements OnInit {
 
   constructor() { }
 
+  public board : KanbanBoard = {
+    id: '1',
+    title: 'Kanban Board',
+    columns: [
+      {
+        id: '1',
+        title: 'To Do',
+        demands: [
+          {
+            id: '1',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          },
+          {
+            id: '2',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          },
+          {
+            id: '3',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          }
+        ],
+      },
+      {
+        id: '2',
+        title: 'In Progress',
+        demands: [
+          {
+            id: '4',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          },
+          {
+            id: '5',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          },
+          {
+            id: '6',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          }
+        ],
+      },
+      {
+        id: '3',
+        title: 'Done',
+        demands: [
+          {
+            id: '7',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          },
+          {
+            id: '8',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          },
+          {
+            id: '9',
+            title: 'Create a demo for Kanban Board',
+            description: 'Create a demo for Kanban Board'
+          }
+        ],
+      }
+    ]
+  }
+  idsFromColumns : string[]  = [];
+  editTaskName = '';
+
   ngOnInit(): void {
+    this.idsFromColumns = this.getIds(this.board);
   }
-  itemObjectsLeft: IItemObject[] = [
-    { id: 1, name: 'Windstorm', board: 'Iniciadas' },
-    { id: 2, name: 'Bombasto' , board: 'Iniciadas' },
-    { id: 3, name: 'Magneta'  , board: 'Iniciadas' },
-  ];
 
-  itemObjectsRight: IItemObject[] = [
-    { id: 4, name: 'Tornado', board: 'Finalizadas' },
-    { id: 5, name: 'Mr. O', board: 'Finalizadas' },
-    { id: 6, name: 'Tomato', board: 'Finalizadas' },
-  ];
 
-  boards: KanbanBoard[] = [
-    {
-      id: '1',
-      title: 'Iniciadas',
-      demands: [
-        {
-          title: 'Titulo da demanda',
-          description: 'Descrição da demanda'
-        },
-        {
-          title: 'Titulo da demanda',
-          description: 'Descrição da demanda'
-        }
-      ]
-    },
-    {
-      id: '2',
-      title: 'Iniciadas',
-      demands: [
-        {
-          title: 'Titulo da demanda',
-          description: 'Descrição da demanda'
-        },
-        {
-          title: 'Titulo da demanda',
-          description: 'Descrição da demanda'
-        }
-      ]
-    },
-    {
-      id: '3',
-      title: 'Iniciadas',
-      demands: [
-        {
-          title: 'Titulo da demanda',
-          description: 'Descrição da demanda'
-        },
-        {
-          title: 'Titulo da demanda',
-          description: 'Descrição da demanda'
-        }
-      ]
+
+  public dropGrid(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.board.columns, event.previousIndex, event.currentIndex);
+  }
+
+  public drop(event: CdkDragDrop<KanbanDemand[]>): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          event.currentIndex);
     }
-  ];
-
-  toModalObject: IItemObject = {
-    id: 0,
-    name: '',
-    board: ''
-  };
-
-  openModal($event: any){
-    let event = $event.path[0].__ngContext__[30].initData;
-    this.toModalObject = event;
   }
-  id: string = '';
-  name: string = '';
+
+  private getIds(board: KanbanBoard): string[] {
+    return board.columns.map(column => column.id);
+  }
+
+  updateTask(columnId: string, demandId: string){
+    if(this.editTaskName !== ''){
+      this.board.columns[parseInt(columnId) - 1].demands.find(demand => demand.id === demandId)!.title = this.editTaskName;
+      this.editTaskName = '';
+    }
+  }
+ /*  openModal($event: any){
+    let event = $event.path[0].__ngContext__[30].initData;
+  }
 
   formSubmit(f : NgForm){
-    let newItem = {
-      id: f.value.id,
-      name: f.value.name,
-      board: ''
-    }
 
-    if(this.toModalObject.board){
-
-    }
-
-
-  }
+  } */
 
 }

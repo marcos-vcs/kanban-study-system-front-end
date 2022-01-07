@@ -1,55 +1,18 @@
-<div class="row mx-auto mt-3">
-  <div class="col-xs-6 col-6 col-md-5 col-lg-3 my-2 rounded" id="board">
-    <h1 id="title-board">Iniciadas</h1>
-    <bs-sortable
-      (click)="openModal($event); staticModal.show();"
-      [(ngModel)]="itemObjectsLeft"
-      fieldName="name"
-      itemClass="sortable-item"
-      itemActiveClass="sortable-item-active"
-      placeholderItem="Drag here"
-      placeholderClass="placeholderStyle text-center"
-      wrapperClass="sortable-wrapper"></bs-sortable>
-  </div>
+
+
+<div (click)="createColumn.show()" class="button-plus">
+  <button class="plus-intern" mat-fab color="primary" aria-label="Botão para adicionar nova coluna">
+    <i style="font-size: 1.5em" class="fas fa-plus" id="plus-icon"></i>
+  </button>
 </div>
 
-<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
-     tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-static-name" class="modal-title pull-left">Static modal</h4>
-        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="staticModal.hide()">
-          <span aria-hidden="true" class="visually-hidden">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {{toModalObject.id}} | {{toModalObject.name}}
-
-        <form method="post" (ngSubmit)="formSubmit(f)" #f="ngForm" ngNativeValidate class="needs-validation">
-          <label for="id"></label>
-          <input type="text" name="id" id="id" class="form-control" [(ngModel)]="id">
-          <label for="name"></label>
-          <input type="text" name="name" id="name" class="form-control" [(ngModel)]="name">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<button (click)="createBoard.show()" type="button" class="btn btn-link" id="button-plus">
-    <i class="fas fa-plus" id="plus-icon"></i>
-</button>
-
-<div class="modal fade" bsModal #createBoard="bs-modal" [config]="{backdrop: 'static'}"
+<div class="modal fade" bsModal #createColumn="bs-modal" [config]="{backdrop: 'static'}"
      tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-static-name" class="modal-title pull-left">Static modal</h4>
-        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="createBoard.hide()">
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="createColumn.hide()">
           <span aria-hidden="true" class="visually-hidden">&times;</span>
         </button>
       </div>
@@ -61,6 +24,67 @@
   </div>
 </div>
 
+<div class="root">
+  <div class="board">
+    <div class="board-wrapper">
+      <div class="board-columns">
+
+        <div cdkDropList
+            cdkDropListOrientation="horizontal" class="board-columns"
+            (cdkDropListDropped)="dropGrid($event)">
+        <div
+           cdkDragLockAxis="x" class="board-column"
+           *ngFor="let column of board.columns" cdkDrag>
+          <div class="column-title" cdkDragHandle>
+            {{ column.title }}
+          </div>
+          <div class="tasks-container"
+          id="{{column.id}}"
+          [cdkDropListConnectedTo]="idsFromColumns"
+          cdkDropList
+          [cdkDropListData]="column.demands"
+          (cdkDropListDropped)="drop($event)">
+            <div class="task" *ngFor="let item of column.demands" cdkDrag>
+
+              <div class="modal fade" bsModal #editTask="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog"
+                aria-labelledby="dialog-static-name">
+                <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 id="dialog-static-name" class="modal-title pull-left">Edit Task</h4>
+                      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="editTask.hide()">
+                        <span aria-hidden="true" class="visually-hidden">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col">
+                          <label for="task-name">Task Name</label><br>
+                          <small>Atual: {{ item.title }}</small>
+                          <input type="text" class="form-control" id="task-name" placeholder="Task Name" [(ngModel)]="editTaskName">
+                          <br>
+                          <button (click)="updateTask(column.id, item.id); editTask.hide()" type="button" class="btn btn-primary">Save</button>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button (click)="editTask.show()" type="button" class="btn btn-link default-config">{{ item.title }}</button>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

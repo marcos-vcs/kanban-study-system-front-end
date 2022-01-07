@@ -18,6 +18,11 @@ import { Error404Component } from './components/error404/error404.component';
 import { SortableModule } from 'ngx-bootstrap/sortable';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
@@ -31,6 +36,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     Error404Component
   ],
   imports: [
+    DragDropModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
     [ RouterModule.forRoot(rootRouterConfig, {useHash: true})],
     TooltipModule.forRoot(),
     SortableModule.forRoot(),
